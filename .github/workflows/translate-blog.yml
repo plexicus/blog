@@ -2,44 +2,53 @@ name: Translate new blog posts
 
 on:
   push:
+    # Trigger only when a Markdown/MDX file under blog/src/content/blog/ changes.
     paths:
       - 'blog/src/content/blog/**/*.md'
       - 'blog/src/content/blog/**/*.mdx'
-    paths-ignore:
-      - 'blog/src/content/blog/translations/**'
 
 jobs:
   translate:
     runs-on: ubuntu-latest
 
-    permissions:           # needed to push the translated files back
+    # We need write access to commit the translated files back.
+    permissions:
       contents: write
       pull-requests: write
 
     env:
+      # Secrets you added in the repo ( Settings → Secrets → Actions )
       AZURE_OPENAI_KEY: ${{ secrets.AZURE_OPENAI_KEY }}
       AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-      AZURE_OPENAI_DEPLOYMENT: gpt-4o-realtime   # change if you provisioned a different name
+
+      # Name of the Azure deployment for GPT-4o (change if needed)
+      AZURE_OPENAI_DEPLOYMENT: gpt-4o-realtime
+      # Cheaper fallback model (optional)
       MODEL_FALLBACK: gpt-35-turbo-1106
+
+      # Comma-separated list of language codes we translate into
       LANG_CODES: "en,de,fr,ja,ko,it,nl,sv,no,da,fi,pt,zh,ar,he,tr,pl,cs,id"
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2   # so we can diff against the previous commit
+          # Pull two commits so we can diff against the previous one
+          fetch-depth: 2
 
-      - name: Calculate changed markdown files
+      - name: Detect changed Markdown/MDX files
         id: changed
         run: |
+          # List files touched in the last commit, keep only *.md/mdx
+          # and exclude anything already in blog-translations
           echo "matrix=$(git diff --name-only HEAD^ | \
-          grep -E 'blog/src/content/blog/.*\.(md|mdx)$' | \
-          grep -v 'blog/src/content/blog/translations/' | \
-          jq -Rsc 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
+            grep -E 'blog/src/content/blog/.*\.(md|mdx)$' | \
+            grep -v 'blog/src/content/blog-translations/' | \
+            jq -Rsc 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
 
-      - name: Exit early if nothing to translate
+      - name: Exit if there is nothing to translate
         if: ${{ steps.changed.outputs.matrix == '[]' }}
-        run: echo "No new blog posts to translate."
+        run: echo "No new or updated blog posts found."
 
       - name: Set up Python
         if: ${{ steps.changed.outputs.matrix != '[]' }}
@@ -47,18 +56,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install deps
+      - name: Install Python dependencies
         if: ${{ steps.changed.outputs.matrix != '[]' }}
-        run: pip install openai==1.* pydantic==2.* python-frontmatter==1.*
+        run: |
+          pip install openai==1.* pydantic==2.* python-frontmatter==1.*
 
-      - name: Run translator
+      - name: Run translator script
         if: ${{ steps.changed.outputs.matrix != '[]' }}
         run: |
           python scripts/translate_blog.py '${{ steps.changed.outputs.matrix }}'
 
-      - name: Commit & push translations
+      - name: Commit and push translations
         if: ${{ steps.changed.outputs.matrix != '[]' }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(translations): add multilingual copies"
-          file_pattern: blog/src/content/blog/translations
+          file_pattern: blog/src/content/blog-translations
