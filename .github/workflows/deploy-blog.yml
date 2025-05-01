@@ -1,15 +1,10 @@
+# .github/workflows/deploy-blog.yml
 name: Deploy Blog to GitHub Pages
+
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "blog/**"
-      - ".github/workflows/deploy-blog.yml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "blog/**"
-      - ".github/workflows/deploy-blog.yml"
+  workflow_run:
+    workflows: ["Translate new blog posts"]   # ← exact name above
+    types: [completed]
 
 permissions:
   contents: write
@@ -17,21 +12,29 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages-blog"
-  cancel-in-progress: true
+  group: pages-blog
+  cancel-in-progress: true   # avoids duplicate builds on rapid pushes :contentReference[oaicite:1]{index=1}
 
 jobs:
   build-and-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # skip on failure
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      # ① Get the latest commit on default branch (already includes translations)
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }   # full history for SSGs that use git data :contentReference[oaicite:2]{index=2}
+
+      # ② Install and build the blog
       - run: |
           cd blog
           npm ci
       - run: |
           cd blog
           npm run build
-      - uses: peaceiris/actions-gh-pages@v3
+
+      # ③ Publish `blog/dist` to separate Pages branch
+      - uses: peaceiris/actions-gh-pages@v3 :contentReference[oaicite:3]{index=3}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: blog/dist
