@@ -1,8 +1,23 @@
-import json, os, sys, subprocess, pathlib, frontmatter, textwrap
-from typing import Dict, List
+"""
+Translate modified Markdown/MDX files into 19 languages using Azure OpenAI
+and save them under blog/src/content/blog-translations/ mirroring
+the original directory structure.
+
+Run by translate-blog GitHub Action.
+"""
+
+import json
+import os
+import sys
+import pathlib
+import textwrap
+import frontmatter
+from typing import Dict
 from pydantic import BaseModel, Field
 from openai import AzureOpenAI
 
+# -------- Pydantic schema --------
+# Each field must be present in the JSON returned by the model.
 class Multilingual(BaseModel):
     en: str
     de: str
@@ -12,7 +27,7 @@ class Multilingual(BaseModel):
     it: str
     nl: str
     sv: str
-    no_: str = Field(..., alias="no")  # 'no' is keyword in Python
+    no_: str = Field(..., alias="no")          # `no` is a Python keyword
     da: str
     fi: str
     pt: str
@@ -24,7 +39,9 @@ class Multilingual(BaseModel):
     cs: str
     id: str
 
-LANG_MAP = {
+
+# Mapping for human-readable language names (optional, but handy for debugging)
+LANG_MAP: Dict[str, str] = {
     "en": "English", "de": "German", "fr": "French", "ja": "Japanese",
     "ko": "Korean", "it": "Italian", "nl": "Dutch", "sv": "Swedish",
     "no": "Norwegian", "da": "Danish", "fi": "Finnish", "pt": "Portuguese",
@@ -32,60 +49,84 @@ LANG_MAP = {
     "tr": "Turkish", "pl": "Polish", "cs": "Czech", "id": "Indonesian"
 }
 
+# -------- Azure OpenAI client --------
 client = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_KEY"],
     api_version="2024-02-01",
-    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
 )
 
-files = json.loads(sys.argv[1])
-for file in files:
-    path = pathlib.Path(file)
-    original = path.read_text()
+# Files to translate come in as a JSON array via CLI arg
+files_to_translate = json.loads(sys.argv[1])
 
+for file_path in files_to_translate:
+    src_path = pathlib.Path(file_path)
+    original_text = src_path.read_text(encoding="utf-8")
+
+    # Build chat messages
     messages = [
-        {"role": "system", "content": textwrap.dedent(f"""
-            You are a professional translator. Return a **single JSON object** that, when
-            validated by the Pydantic model below, passes without modification.
+        {
+            "role": "system",
+            "content": textwrap.dedent(
+                f"""
+                You are a professional translator.
+                Return *one* JSON object EXACTLY matching this Pydantic model:
 
-            ```python
-            class Multilingual(BaseModel):
-                {', '.join([f"{k}: str" for k in LANG_MAP])}
-            ```
+                ```python
+                class Multilingual(BaseModel):
+                    {', '.join([f"{k}: str" for k in LANG_MAP])}
+                ```
 
-            For every language key, translate **the entire markdown** *verbatim*,
-            preserving YAML front-matter, headings, code fences, embeds, and spacing.
-            Do not add editor notes, comments, or extra keys.
-        """)},
-        {"role": "user", "content": original}
+                • Translate the ENTIRE Markdown verbatim into each language key.
+                • Preserve YAML front-matter, headings, links, code blocks, etc.
+                • No explanations, comments, or extra keys—only raw JSON.
+                """
+            ),
+        },
+        {"role": "user", "content": original_text},
     ]
 
-    try:
-        response = client.chat.completions.create(
-            model=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
-            temperature=0.2,
-            max_tokens=80000,   # plenty for 20× expansion
-            messages=messages
-        )
-    except Exception as e:
-        # fallback if the main model is busy or quota-blocked
-        response = client.chat.completions.create(
-            model=os.getenv("MODEL_FALLBACK"),
-            temperature=0.2,
-            max_tokens=80000,
-            messages=messages
-        )
+    # Try primary model, fall back if needed
+    for model_name in (
+        os.getenv("AZURE_OPENAI_DEPLOYMENT"),
+        os.getenv("MODEL_FALLBACK"),
+    ):
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                temperature=0.2,
+                max_tokens=80000,  # generous upper bound
+                messages=messages,
+            )
+            break  # success, exit loop
+        except Exception as exc:
+            last_exc = exc
+    else:
+        # Every model failed
+        raise RuntimeError("OpenAI translation failed") from last_exc
 
-    translations = Multilingual.model_validate_json(response.choices[0].message.content)
+    # Validate JSON against Pydantic schema
+    translations = Multilingual.model_validate_json(
+        response.choices[0].message.content
+    )
 
+    # -------- Write translated files --------
     for lang_code in LANG_MAP:
-        out_dir = pathlib.Path("blog/src/content/blog/translations") / path.relative_to("blog/src/content/blog").parent / lang_code
+        # Fix field name for Norwegian
+        key = lang_code if lang_code != "no" else "no_"
+        translated_markdown = translations.model_dump()[key]
+
+        # Build target path: blog-translations/<lang>/<same subdirs>/<filename>
+        out_base = pathlib.Path("blog/src/content/blog-translations")
+        relative_subpath = src_path.relative_to("blog/src/content/blog").parent
+        out_dir = out_base / relative_subpath / lang_code
         out_dir.mkdir(parents=True, exist_ok=True)
-        out_file = out_dir / path.name
-        # re-inject original front-matter if present
-        if original.lstrip().startswith("---"):
-            fm, body = frontmatter.parse(original).metadata, frontmatter.parse(original).content
-            translated_body = translations.model_dump()[lang_code if lang_code != "no_" else "no"]
-            out_file.write_text(frontmatter.dumps(frontmatter.Post(**fm, content=translated_body)))
+        out_file = out_dir / src_path.name
+
+        # If the source has front-matter, keep metadata and swap body
+        if original_text.lstrip().startswith("---"):
+            post = frontmatter.loads(original_text)
+            post.content = translated_markdown
+            out_file.write_text(frontmatter.dumps(post), encoding="utf-8")
         else:
-            out_file.write_text(translations.model_dump()[lang_code if lang_code != "no_" else "no"])
+            out_file.write_text(translated_markdown, encoding="utf-8")
