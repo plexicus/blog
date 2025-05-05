@@ -4,8 +4,8 @@ on:
   push:
     # Trigger only when a Markdown/MDX file under blog/src/content/blog/ changes.
     paths:
-      - 'blog/src/content/blog/**/*.md'
-      - 'blog/src/content/blog/**/*.mdx'
+      - 'src/content/blog/**/*.md'
+      - 'src/content/blog/**/*.mdx'
 
 jobs:
   translate:
@@ -71,4 +71,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(translations): add multilingual copies"
-          file_pattern: blog/src/content/blog-translations
+          file_pattern: src/content/blog-translations
