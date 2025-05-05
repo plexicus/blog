@@ -1,16 +1,16 @@
+const { fontFamily } = require('tailwindcss/defaultTheme');
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: ["class"],
-	content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
-	theme: {
-		container: {
+  theme: {
+    container: {
 			center: true,
 			padding: "2rem",
 			screens: {
 				"2xl": "1400px",
 			},
 		},
-		extend: {
-			fontFamily: {},
+    extend: {
+      fontFamily: {},
 			colors: {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
@@ -75,7 +75,12 @@ module.exports = {
 				"gradient-primary":
           "linear-gradient(135deg, hsl(var(--purple-gradient-start)) 0%, hsl(var(--purple-gradient-end)) 100%)",
 			},
-		},
-	},
-	
-}
+      fontFamily: {
+        ...config.theme.extend.fontFamily,
+        sans: ['var(--font-poppins)', ...fontFamily.sans],
+        mono: fontFamily.mono,
+      },
+    },
+  },
+  plugins: [require('tailwindcss-animate')],
+};
