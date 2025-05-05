@@ -22,9 +22,9 @@ jobs:
       AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
 
       # Name of the Azure deployment for GPT-4o (change if needed)
-      AZURE_OPENAI_DEPLOYMENT: gpt-4o-realtime
+      AZURE_OPENAI_DEPLOYMENT: gpt-4o-mini
       # Cheaper fallback model (optional)
-      MODEL_FALLBACK: gpt-35-turbo-1106
+      MODEL_FALLBACK: gpt-4o
 
       # Comma-separated list of language codes we translate into
       LANG_CODES: "en,de,fr,ja,ko,it,nl,sv,no,da,fi,pt,zh,ar,he,tr,pl,cs,id"
