@@ -52,7 +52,7 @@ LANG_MAP: Dict[str, str] = {
 # -------- Azure OpenAI client --------
 client = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_KEY"],
-    api_version="2024-02-01",
+    api_version="2025-01-01-preview",
     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
 )
 
@@ -89,14 +89,14 @@ for file_path in files_to_translate:
     # Try primary model, fall back if needed
     for model_name in (
         os.getenv("AZURE_OPENAI_DEPLOYMENT"),
-        os.getenv("MODEL_FALLBACK"),
     ):
         try:
-            response = client.chat.completions.create(
+            response = client.beta.chat.completions.parse(
                 model=model_name,
                 temperature=0.2,
-                max_tokens=80000,  # generous upper bound
+                max_tokens=16000,
                 messages=messages,
+                response_format=Multilingual
             )
             break  # success, exit loop
         except Exception as exc:
@@ -106,15 +106,13 @@ for file_path in files_to_translate:
         raise RuntimeError("OpenAI translation failed") from last_exc
 
     # Validate JSON against Pydantic schema
-    translations = Multilingual.model_validate_json(
-        response.choices[0].message.content
-    )
+    translations = response.choices[0].message.parsed.model_dump()
 
     # -------- Write translated files --------
     for lang_code in LANG_MAP:
         # Fix field name for Norwegian
         key = lang_code if lang_code != "no" else "no_"
-        translated_markdown = translations.model_dump()[key]
+        translated_markdown = translations[key]
 
         # Build target path: blog-translations/<lang>/<same subdirs>/<filename>
         out_base = pathlib.Path("blog/src/content/blog-translations")
