@@ -1,0 +1,17 @@
+---
+import { getEntry, render } from 'astro:content';
+import BlogPost from '@/layouts/BlogPost.astro';
+const { lang, slug } = Astro.params;
+const post = await getEntry('blog', `${lang}/${slug}`);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const formattedDate = post.data.pubDate.toLocaleString(lang);
+const { Content, headings } = await render(post);
+---
+
+<BlogPost {...post.data}>
+  <Content />
+</BlogPost>

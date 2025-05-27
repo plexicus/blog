@@ -2,7 +2,11 @@
 title: 'What is ASPM and Why It Matters'
 description: 'An introduction to Application Security Posture Management (ASPM) and how it helps organizations tackle modern software security challenges.'
 pubDate: 'May 1 2025'
-heroImage: '/blog-placeholder-aspm.jpg'
+heroImage: '/blog-placeholder-3.jpg'
+category: 'Introduction'
+tags: ['introduction', 'security', 'technology']
+author: 'jpalanco'
+excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.'
 ---
 
 Application Security Posture Management (ASPM) is an emerging discipline in the realm of cybersecurity that focuses on continuously assessing and improving the security posture of applications throughout their lifecycle. As modern software becomes more distributed and dependent on third-party components, traditional security approaches struggle to keep up. ASPM bridges that gap.

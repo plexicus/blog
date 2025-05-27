@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
+import yaml from '@rollup/plugin-yaml';
 
 const { BLOG_SITE_URL, SITE_PORT, BLOG_PORT, SITE_URL } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
 	server: { port: BLOG_PORT ? Number(BLOG_PORT) : 9000 },
 	site: BLOG_SITE_URL || 'https://blog.plexicus.ai',
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [tailwindcss(), yaml()],
 	},
 	integrations: [mdx(), sitemap({
 		serialize(item) {
@@ -32,8 +33,9 @@ export default defineConfig({
 			locales: {
 			  en: 'en-US', // The `defaultLocale` value must present in `locales` keys
 			  es: 'es-ES',
-			  fr: 'it-IT',
+			  it: 'it-IT',
 			},
+			prefixDefaultLocale: false
 		  },
 	}), react()],
 });
