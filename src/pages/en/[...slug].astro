@@ -1,17 +1,20 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '@/layouts/BlogPost.astro';
-const { lang, slug } = Astro.params;
-const post = await getEntry('blog', `${lang}/${slug}`);
+import {processStaticPaths} from '@/lib/process-static-paths'
+import type { CollectionEntry } from 'astro:content';
 
-if (!post) {
-  return Astro.redirect('/404');
+export async function getStaticPaths() {
+  const pages = await getCollection('blog');
+
+  const paths = processStaticPaths({pages})
+
+  return paths;
 }
-
-const formattedDate = post.data.pubDate.toLocaleString(lang);
-const { Content, headings } = await render(post);
+const page: CollectionEntry<'blog'> = Astro.props;
+const { Content } = await render(page);
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...page.data}>
   <Content />
 </BlogPost>

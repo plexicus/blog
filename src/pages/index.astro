@@ -13,7 +13,6 @@ const posts = (await getCollection("blog")).sort(
 ).filter((content) => {
 	return getLangFromPathname(`/${content.id}`) === lang
 });
-console.log({posts})
 const t = useTranslations(lang)
 ---
 
@@ -28,7 +27,7 @@ const t = useTranslations(lang)
 			lang={lang}
 			fullSiteUrl={`${SITE_URL}:${SITE_PORT}`}
 		/>
-		<BlogHomepage featuredPosts={posts.slice(0, 3)}  blogPosts={posts} />
+		<BlogHomepage client:load featuredPosts={posts.slice(0, 3)}  blogPosts={posts} />
 		<FooterPlexicus client:only />
 	</body>
 </html>

@@ -1,23 +1,20 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '@/layouts/BlogPost.astro';
+import {processStaticPaths} from '@/lib/process-static-paths'
+import type { CollectionEntry } from 'astro:content';
+
 export async function getStaticPaths() {
   const pages = await getCollection('blog');
 
-  const paths = pages.map(page => {
-    const [lang, ...slug] = page.id.split('/');
-    console.log({lang})
-    return { params: { lang, slug: slug.join('/') || undefined }, props: page };
-  });
+  const paths = processStaticPaths({pages})
 
   return paths;
 }
-
-const page = Astro.props;
+const page: CollectionEntry<'blog'> = Astro.props;
 const { Content } = await render(page);
 ---
 
 <BlogPost {...page.data}>
-  <p>{page.id}</p>
   <Content />
 </BlogPost>

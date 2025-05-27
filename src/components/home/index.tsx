@@ -5,19 +5,57 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
-import { useState } from "react"
+import { useState, useMemo } from "react" // Import useMemo
 import FormattedDate from "@/components/FormattedDate";
 import Link from "../ui/link"
+
+const POSTS_PER_PAGE = 3; // Define posts per page
 
 export default function BlogHomepage({ featuredPosts, blogPosts }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState("All")
-
+  const [categoryPagination, setCategoryPagination] = useState<{[key: string]: number}>({ "All": 1 }); // State for pagination per category
 
   const filteredBlogPosts =
     selectedCategory === "All" ? blogPosts : blogPosts.filter((post) => post.data.category === selectedCategory)
 
   const categories = ["All", "Technology", "Architecture", "Security", "Design", "Database", "Infrastructure"]
+
+  // Calculate the posts for the current page of the selected category
+  const currentPage = categoryPagination[selectedCategory] || 1;
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+  const paginatedBlogPosts = filteredBlogPosts.slice(startIndex, endIndex);
+
+  // Calculate total pages for the selected category
+  const totalPages = Math.ceil(filteredBlogPosts.length / POSTS_PER_PAGE);
+
+  // Handlers for pagination
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCategoryPagination({
+        ...categoryPagination,
+        [selectedCategory]: currentPage - 1,
+      });
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCategoryPagination({
+        ...categoryPagination,
+        [selectedCategory]: currentPage + 1,
+      });
+    }
+  };
+
+  // Reset to first page when category changes
+  useMemo(() => {
+    setCategoryPagination(prev => ({
+      ...prev,
+      [selectedCategory]: 1,
+    }));
+  }, [selectedCategory]);
 
   return (
     <div className="min-h-screen">
@@ -120,7 +158,7 @@ export default function BlogHomepage({ featuredPosts, blogPosts }) {
           <div className="container mx-auto max-w-6xl">
             <h3 className="text-3xl font-bold text-gray-900 mb-8">Latest Articles</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredBlogPosts.map((post, index) => (
+              {paginatedBlogPosts.map((post, index) => (
                 <Link href={`/${post.id}`}>
                   <Card
                     key={index}
@@ -167,15 +205,39 @@ export default function BlogHomepage({ featuredPosts, blogPosts }) {
                 </Button>
               </div>
             )}
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (filteredBlogPosts.length > 0) && (
+              <div className="flex justify-end space-x-4 mt-8">
+                <Button
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className="bg-violet-600 hover:bg-violet-700 text-white disabled:opacity-50"
+                >
+                  Previous
+                </Button>
+                <span className="self-center text-gray-700">Page {currentPage} of {totalPages}</span>
+                <Button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className="bg-violet-600 hover:bg-violet-700 text-white disabled:opacity-50"
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </div>
         </section>
 
         {/* Load More */}
+        {/* This section can be removed or repurposed if pagination is sufficient */}
+        {/*
         <section className="py-12 px-4">
           <div className="container mx-auto max-w-6xl text-center">
             <Button className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-3">Load More Articles</Button>
           </div>
         </section>
+        */}
 
         {/* Newsletter Signup */}
         <section className="py-16 px-4 bg-gray-50">
