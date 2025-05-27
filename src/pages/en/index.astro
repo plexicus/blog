@@ -6,7 +6,9 @@ import { SITE_URL, SITE_PORT } from "astro:env/client";
 import "@/styles/global.css";
 import { getCollection } from "astro:content";
 import { NavbarPlexicus, FooterPlexicus } from "shared-ui";
-import BlogHomepage from "@/components/home";
+import HeroMain from "@/components/home/hero";
+import FeaturedArticles from "@/components/home/featured";
+import LatestArticles from "@/components/home/latest";
 const lang = getLangFromUrl(Astro.url);
 const posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -27,7 +29,9 @@ const t = useTranslations(lang)
 			lang={lang}
 			fullSiteUrl={`${SITE_URL}:${SITE_PORT}`}
 		/>
-		<BlogHomepage featuredPosts={posts.slice(0, 3)}  blogPosts={posts} />
+		<HeroMain/>
+		<FeaturedArticles featuredPosts={posts.slice(0,3)} />
+		<LatestArticles client:load blogPosts={posts}/>
 		<FooterPlexicus client:only />
 	</body>
 </html>
