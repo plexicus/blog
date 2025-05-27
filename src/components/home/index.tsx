@@ -61,7 +61,7 @@ export default function BlogHomepage({ featuredPosts, blogPosts }) {
     <div className="min-h-screen">
       <div className="bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
         {/* Hero Section */}
-        <section className="py-36 px-4">
+        <section className="pb-36 pt-50 px-4">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">Insights & Innovation</h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
