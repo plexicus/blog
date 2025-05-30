@@ -1,17 +1,17 @@
 ---
-import { getCollection, render } from 'astro:content';
-import BlogPost from '@/layouts/BlogPost.astro';
-import {processStaticPaths} from '@/lib/process-static-paths'
-import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from "astro:content";
+import BlogPost from "@/layouts/BlogPost.astro";
+import { processStaticPaths } from "@/lib/process-static-paths";
+import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "@/i18n/utils";
+
 
 export async function getStaticPaths() {
-  const pages = await getCollection('blog');
-
-  const paths = processStaticPaths({pages})
-
+  const pages = await getCollection("blog");
+  const paths = processStaticPaths({ pages, lang: "it" });
   return paths;
 }
-const page: CollectionEntry<'blog'> = Astro.props;
+const page: CollectionEntry<"blog"> = Astro.props;
 const { Content } = await render(page);
 ---
 
