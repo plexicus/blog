@@ -1,4 +1,4 @@
-import { Calendar} from "lucide-react"
+import { Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import { Badge } from "@/components/ui/badge"
@@ -56,18 +56,30 @@ export default function LatestArticles({ blogPosts }) {
             {/* Featured Posts */}
 
             {/* Categories Filter */}
-            <section className="py-8 px-4">
+            <section className="py-8 px-4 sticky top-15 z-30 bg-white shadow-sm">
                 <div className="container mx-auto max-w-6xl">
                     <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                         {categories.map((category) => (
+                            // <Button
+                            //     key={category}
+                            //     variant={category === selectedCategory ? "default" : "outline"}
+                            //     onClick={() => setSelectedCategory(category)}
+                            //     className={
+                            //         category === selectedCategory
+                            //             ? "bg-violet-600 hover:bg-violet-700 text-white"
+                            //             : "border-gray-300 text-gray-600 hover:bg-violet-600/20 hover:text-violet-600 hover:border-violet-600"
+                            //     }
+                            // >
+                            //     {category}
+                            // </Button>
                             <Button
                                 key={category}
                                 variant={category === selectedCategory ? "default" : "outline"}
                                 onClick={() => setSelectedCategory(category)}
                                 className={
-                                    category === selectedCategory
+                                    ` rounded-full min-w-24 cursor-pointer font-semibold text-base ${category === selectedCategory
                                         ? "bg-violet-600 hover:bg-violet-700 text-white"
-                                        : "border-gray-300 text-gray-600 hover:bg-violet-600/20 hover:text-violet-600 hover:border-violet-600"
+                                        : "border-0 text-gray-600 hover:bg-violet-600/20 hover:text-violet-600 hover:border-violet-600"}`
                                 }
                             >
                                 {category}
