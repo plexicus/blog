@@ -21,20 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ① Get the latest commit on default branch (already includes translations)
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }   # full history for SSGs that use git data :contentReference[oaicite:2]{index=2}
-
-      # ② Install and build the blog
-      - run: |
-          npm ci
-      - run: |
-          npm run build
-
-      # ③ Publish `blog/dist` to separate Pages branch
-      - uses: peaceiris/actions-gh-pages@v3 :contentReference[oaicite:3]{index=3}
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+          publish_dir: ./dist
           cname: blog.plexicus.ai
-          publish_branch: gh-pages-blog
