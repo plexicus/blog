@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from "astro:content";
+import BlogPost from "@/layouts/BlogPost.astro";
+import { processStaticPaths } from "@/lib/process-static-paths";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("blog");
+
+  const paths = processStaticPaths({ pages, lang: "en" });
+
+  return paths;
+}
+const page: CollectionEntry<"blog"> = Astro.props;
+const { Content } = await render(page);
+---
+
+<BlogPost {...page.data}>
+  <Content />
+</BlogPost>

@@ -1,6 +1,6 @@
 """
 Translate modified Markdown/MDX files into 19 languages using Azure OpenAI
-and save them under blog/src/content/blog-translations/ mirroring
+and save them under src/content/blog-translations/ mirroring
 the original directory structure.
 
 Run by translate-blog GitHub Action.
@@ -115,8 +115,8 @@ for file_path in files_to_translate:
         translated_markdown = translations[key]
 
         # Build target path: blog-translations/<lang>/<same subdirs>/<filename>
-        out_base = pathlib.Path("blog/src/content/blog-translations")
-        relative_subpath = src_path.relative_to("blog/src/content/blog").parent
+        out_base = pathlib.Path("src/content/blog-translations")
+        relative_subpath = src_path.relative_to("src/content/blog").parent
         out_dir = out_base / relative_subpath / lang_code
         out_dir.mkdir(parents=True, exist_ok=True)
         out_file = out_dir / src_path.name

@@ -1,0 +1,22 @@
+---
+import { getCollection, render } from "astro:content";
+import BlogPost from "@/layouts/BlogPost.astro";
+import { processStaticPaths } from "@/lib/process-static-paths";
+import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "@/i18n/utils";
+
+
+export async function getStaticPaths() {
+  const pages = await getCollection("blog");
+  // can’t reference anything from its parent scope https://docs.astro.build/en/reference/routing-reference/#getstaticpaths
+  const paths = processStaticPaths({ pages, lang: "en" });
+  return paths;
+}
+
+const page: CollectionEntry<"blog"> = Astro.props;
+const { Content } = await render(page);
+---
+
+<BlogPost {...page.data}>
+  <Content />
+</BlogPost>

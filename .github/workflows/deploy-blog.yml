@@ -27,16 +27,14 @@ jobs:
 
       # ② Install and build the blog
       - run: |
-          cd blog
           npm ci
       - run: |
-          cd blog
           npm run build
 
       # ③ Publish `blog/dist` to separate Pages branch
       - uses: peaceiris/actions-gh-pages@v3 :contentReference[oaicite:3]{index=3}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: blog/dist
+          publish_dir: dist
           cname: blog.plexicus.ai
           publish_branch: gh-pages-blog
