@@ -108,5 +108,5 @@ export default defineConfig([
 			"array-bracket-spacing": ["error", "never"],
 		},
 	},
-	globalIgnores(['/.astro', '/node_modules'])
+	globalIgnores(['.astro', 'node_modules', 'dist'])
 ]);

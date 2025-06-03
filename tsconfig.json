@@ -12,5 +12,8 @@
       ]
     },
     "moduleResolution": "bundler"
-  }
+  },
+  "exclude": [
+    "dist"
+  ]
 }
