@@ -1,10 +1,16 @@
 # .github/workflows/deploy-blog.yml
 name: Deploy Blog to GitHub Pages
 
+# on:
+#   workflow_run:
+#     workflows: ["Translate new blog posts"]   # ← exact name above
+#     types: [completed]
+
 on:
-  workflow_run:
-    workflows: ["Translate new blog posts"]   # ← exact name above
-    types: [completed]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
@@ -17,7 +23,8 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # skip on failure
+    # skip on failure
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
