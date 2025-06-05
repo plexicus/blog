@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from "astro:content";
+import BlogPost from "@/layouts/BlogPost.astro";
+import type { CollectionEntry } from "astro:content";
+import { generateLocalizedPaths } from "@/i18n/utils";
+export async function getStaticPaths() {
+  const pages = await getCollection("blog");
+
+  const paths = generateLocalizedPaths({ pages });
+
+  return paths;
+}
+const page: CollectionEntry<"blog"> = Astro.props;
+const { Content } = await render(page);
+---
+
+<BlogPost {...page.data}>
+  <Content />
+</BlogPost>
