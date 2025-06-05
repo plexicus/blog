@@ -217,4 +217,25 @@ body {
   }
 }
 
+.toc-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #8b5cf6 transparent; /* Firefox */
+}
+
+.toc-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Webkit browsers */
+}
+
+.toc-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Hidden rail */
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #8b5cf6; /* Violet thumb */
+  border-radius: 2px;
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #7c3aed; /* Darker violet on hover */
+}
 @import "tailwindcss/preflight.css" layer(base);
