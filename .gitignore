@@ -3,6 +3,8 @@ dist/
 # generated types
 .astro/
 pnpm-lock.yaml
+package-lock.json
+yarn.lock
 
 # dependencies
 node_modules/
