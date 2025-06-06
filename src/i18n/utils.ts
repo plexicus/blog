@@ -64,8 +64,14 @@ export function generateLocalizedPaths<T extends string = never, Page = any>(opt
 
       if (page !== undefined) {
         // Assign the dynamic key-value pair
-        const [, ...slug] = page.id.split('/');
-        (params as any)['slug'] = page.id; // Temporary `any` here as TypeScript can't infer this dynamic assignment perfectly without a more complex type guard.
+        const segments = page.id.split('/');
+        if (segments.length === 2) {
+          const [lang] = page.id.split('/');
+          if (locale === lang) (params as any)['slug'] = page.id; 
+        } else if (locale === 'en'){
+          (params as any)['slug'] = page.id; 
+        } 
+        // Temporary `any` here as TypeScript can't infer this dynamic assignment perfectly without a more complex type guard.
         // The `PathParams<T>` type itself already covers the possibility.
       }
       paths.push({ params, props });
