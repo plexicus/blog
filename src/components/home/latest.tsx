@@ -65,7 +65,6 @@ export default function LatestArticles({ blogPosts }) {
 
   const handleSearchSubmit = () => {
     // Search functionality is already handled by the filter above
-    console.log('Searching for:', searchQuery);
   };
 
   const handleSearchToggle = () => {

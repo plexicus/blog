@@ -14,10 +14,8 @@ const lang = getLangFromUrl(Astro.url);
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 ).filter((content) => {
-  console.log({ content });
   return getLangFromPathname(`/${content.id}`) === lang;
 });
-console.log({ posts });
 export async function getStaticPaths() {
   const pages = await getCollection("blog");
 
