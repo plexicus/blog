@@ -1,6 +1,6 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
-import { getLangFromUrl, useTranslations, getLangFromPathname } from "@/i18n/utils";
+import { getLangFromUrl, useTranslations, getLangFromPathname, generateLocalizedPaths } from "@/i18n/utils";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import { SITE_URL, SITE_PORT } from "astro:env/client";
 import "@/styles/global.css";
@@ -10,11 +10,20 @@ import HeroMain from "@/components/home/hero";
 import FeaturedArticles from "@/components/home/featured";
 import LatestArticles from "@/components/home/latest";
 const lang = getLangFromUrl(Astro.url);
+
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 ).filter((content) => {
   return getLangFromPathname(`/${content.id}`) === lang;
 });
+export async function getStaticPaths() {
+  const pages = await getCollection("blog");
+
+  const paths = generateLocalizedPaths({ pages });
+
+  return paths;
+}
+
 const t = useTranslations(lang);
 ---
 

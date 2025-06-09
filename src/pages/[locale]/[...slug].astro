@@ -1,13 +1,12 @@
 ---
 import { getCollection, render } from "astro:content";
 import BlogPost from "@/layouts/BlogPost.astro";
-import { processStaticPaths } from "@/lib/process-static-paths";
 import type { CollectionEntry } from "astro:content";
-
+import { generateLocalizedPaths } from "@/i18n/utils";
 export async function getStaticPaths() {
   const pages = await getCollection("blog");
 
-  const paths = processStaticPaths({ pages, lang: "en" });
+  const paths = generateLocalizedPaths({ pages });
 
   return paths;
 }

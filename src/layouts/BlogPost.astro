@@ -125,27 +125,34 @@ const routeLang = getRoutePrefixForLang(lang);
                 )
               }
 
-              <!-- Hero Image -->
-              {
-                heroImage && (
-                  <div class="mb-8">
-                    <img
-                      src={heroImage || "/placeholder.svg"}
-                      alt={title}
-                      class="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
-                    />
-                  </div>
-                )
-              }
-            </div>
-          </header>
-          <div class="prose prose-lg prose-gray mx-auto">
-            <slot />
-          </div>
-        </article>
-        <Sidebar client:load />
-      </div>
-    </main>
-    <FooterPlexicus client:only={true} />
-  </body>
+							<!-- Hero Image -->
+							{
+							  heroImage && (
+							    <div class="mb-8">
+							      <img
+							        src={
+							          heroImage || "/placeholder.svg"
+							        }
+							        alt={title}
+							        class="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+							      />
+							    </div>
+							  )
+							}
+						</div>
+				  </header>
+				  <div class="prose prose-lg prose-gray mx-auto">
+				    <slot />
+				  </div>
+				</article>
+				<Sidebar client:load />
+		  </div>
+		</main>
+		<ReadingProgress />
+		
+
+		
+
+		<FooterPlexicus client:only />
+	</body>
 </html>

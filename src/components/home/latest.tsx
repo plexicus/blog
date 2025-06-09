@@ -1,4 +1,4 @@
-import { Calendar, Search,X } from 'lucide-react';
+import { Calendar, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -65,7 +65,6 @@ export default function LatestArticles({ blogPosts }) {
 
   const handleSearchSubmit = () => {
     // Search functionality is already handled by the filter above
-    console.log('Searching for:', searchQuery);
   };
 
   const handleSearchToggle = () => {
