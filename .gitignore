@@ -2,9 +2,6 @@
 dist/
 # generated types
 .astro/
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
 
 # dependencies
 node_modules/
@@ -25,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+pnpm-lock.yaml
+yarn.lock
+package-lock*
