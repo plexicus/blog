@@ -14,7 +14,7 @@ export default function FeaturedArticles({ featuredPosts }) {
             <Link href={`/${post.id}`} className={`${index === 0 ? 'col-span-1 md:col-span-2' : 'col-span-1'}`} key={post.id}>
               <Card
                 key={index}
-                className={'bg-white border-gray-200 shadow-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 group'}
+                className={'bg-white border-gray-200 shadow-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 group h-full'}
               >
                 <div className={index === 0 ? 'md:flex' : ''}>
                   <div className={index === 0 ? 'md:w-1/2' : ''}>
@@ -27,13 +27,13 @@ export default function FeaturedArticles({ featuredPosts }) {
                       }`}
                     />
                   </div>
-                  <div className={index === 0 ? 'md:w-1/2 p-8' : 'p-6'}>
+                  <div className={index === 0 ? 'md:w-1/2 p-8 mb-4' : 'p-6'}>
                     <Badge className="bg-violet-600/20 text-violet-600 border-violet-600/30 mb-4">
                       { post.data.category }
                     </Badge>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 w-full flex-wrap mb-4">
                       { post.data.tags.map((tag) => (
-                        <Badge key={tag} className="bg-orange-600/20 text-violet-600 border-orange-600/30 mb-4">
+                        <Badge key={tag} className="bg-orange-600/20 text-violet-600 border-orange-600/30">
                           { tag }
                         </Badge>
                       )) }

@@ -74,7 +74,7 @@ export default function TableOfContents() {
     }
 
     // Generate table of contents from headings within the <article> element only
-    const headings = articleElement.querySelectorAll('h1, h2');
+    const headings = articleElement.querySelectorAll('h1, h2, h3, h4');
 
     const tocItems: TOCItem[] = Array.from(headings).map((heading, index) => {
       const id = heading.id || `heading-${index}`;

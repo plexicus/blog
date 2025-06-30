@@ -183,9 +183,9 @@ export default function LatestArticles({ blogPosts }) {
                     <Badge className="bg-violet-600/20 text-violet-600 border-violet-600/30 mb-3">
                       { post.data.category }
                     </Badge>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-4 flex-wrap">
                       { post.data.tags.map((tag) => (
-                        <Badge key={tag} className="bg-orange-600/20 text-violet-600 border-orange-600/30 mb-4">
+                        <Badge key={tag} className="bg-orange-600/20 text-violet-600 border-orange-600/30">
                           { tag }
                         </Badge>
                       )) }
