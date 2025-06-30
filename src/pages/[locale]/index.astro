@@ -38,7 +38,7 @@ const t = useTranslations(lang);
       lang={lang}
       fullSiteUrl={`${SITE_URL}:${SITE_PORT}`}
     />
-    <HeroMain/>
+    <HeroMain client:load/>
     <FeaturedArticles featuredPosts={posts.slice(0,3)} />
     <LatestArticles client:load blogPosts={posts}/>
     <FooterPlexicus client:only={true} />
