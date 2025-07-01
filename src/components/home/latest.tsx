@@ -90,7 +90,7 @@ export default function LatestArticles({ blogPosts }) {
       { /* Featured Posts */ }
 
       { /* Categories Filter with Search */ }
-      <section className="py-8 px-4 sticky top-16 bg-white z-40 border-b border-gray-200">
+      <section id="latest-article" className="py-8 px-4 sticky top-16 bg-white z-40 border-b border-gray-200">
         <div className="container mx-auto max-w-6xl">
           <div className="flex items-center justify-between gap-4">
 
