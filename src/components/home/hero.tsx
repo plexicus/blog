@@ -20,9 +20,12 @@ export default function HeroMain() {
           Discover the latest trends, best practices, and cutting-edge solutions in technology and digital
           transformation.
         </p>
-        <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-          Discover now
-        </button>
+        <a href="#latest-article" className="cursor-pointer">
+          <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 cursor-pointer" >
+            Discover now
+          </button>
+        </a>
+
       </motion.div>
     </AuroraBackground>
   );
