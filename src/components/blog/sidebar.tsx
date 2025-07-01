@@ -16,29 +16,6 @@ export default function Sidebar() {
 
   return (
     <aside className="space-y-8 overflow-clip hidden md:block flex-grow-0 flex-shrink-0 w-80">
-      { /* Newsletter Subscription - Normal Flow */ }
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Subscribe newsletters</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Stay on top of the latest product updates, development inspirations, blogs, and research articles.
-        </p>
-        <form onSubmit={handleSubscribe} className="space-y-3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full bg-purple-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors"
-          >
-            Subscribe
-          </button>
-        </form>
-      </div>
 
       { /* Promotional Card - Normal Flow */ }
       <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg p-6 text-white shadow-sm">
