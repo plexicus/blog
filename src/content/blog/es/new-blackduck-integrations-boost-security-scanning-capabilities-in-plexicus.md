@@ -3,7 +3,7 @@ title: "Nuevas integraciones de BlackDuck impulsan las capacidades de escaneo de
 description: "Descubra cómo la nueva integración de BlackDuck de Plexicus mejora la seguridad de código abierto con detección de vulnerabilidades en tiempo real, priorización automatizada de riesgos y flujos de trabajo DevSecOps sin interrupciones."
 pubDate: "2025-03-20"
 heroImage: "https://www.plexicus.com/wp-content/uploads/2025/03/347b2a19-377b-4ae3-8d90-8a0c297ef9c3.webp"
-category: "Ciberseguridad"
+category: "Cybersecurity"
 tags: ["BlackDuck", "Seguridad de Código Abierto", "SCA", "DevSecOps", "Detección de Vulnerabilidades", "ASPM", "Integración"]
 author: "Nei Martinez"
 excerpt: "Descubra cómo la nueva integración de BlackDuck de Plexicus mejora la seguridad de código abierto con detección de vulnerabilidades en tiempo real, priorización automatizada de riesgos y flujos de trabajo DevSecOps sin interrupciones."

@@ -3,7 +3,7 @@ title: "Plexicus y Céfiros Fortalecen la Ciberseguridad en 19 Países"
 description: "Una nueva colaboración entre Plexicus y Céfiros potenciará la seguridad de las aplicaciones en 19 países de Latam e Iberia. Esta colaboración en ciberseguridad ofrece soluciones avanzadas de Gestión de la Postura de Seguridad de Aplicaciones (ASPM) a organizaciones que buscan defenderse proactivamente contra las ciberamenazas."
 pubDate: "2025-03-19"
 heroImage: "https://www.plexicus.com/wp-content/uploads/2025/03/3d7df554-250e-43f5-8a3c-4048c253db20.webp"
-category: "Ciberseguridad"
+category: "Cybersecurity"
 tags: ["Ciberseguridad", "ASPM", "Asociación", "Latam", "Iberia", "Seguridad de Aplicaciones", "Remediación de Vulnerabilidades"]
 author: "Nei Martinez"
 excerpt: "Una nueva colaboración entre Plexicus y Céfiros potenciará la seguridad de las aplicaciones en 19 países de Latam e Iberia. Esta colaboración en ciberseguridad ofrece soluciones avanzadas de Gestión de la Postura de Seguridad de Aplicaciones (ASPM) a organizaciones que buscan defenderse proactivamente contra las ciberamenazas."
