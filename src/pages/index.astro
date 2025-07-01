@@ -33,7 +33,7 @@ const t = useTranslations(lang);
     />
     <HeroMain client:load/>
     <FeaturedArticles featuredPosts={posts.slice(0,3)} />
-    <LatestArticles client:load blogPosts={posts}/>
+    <LatestArticles client:load blogPosts={posts} />
     <FooterPlexicus client:only={true}  fullSiteUrl={`${SITE_URL}:${SITE_PORT}`}
       fullBlogUrl={`${BLOG_SITE_URL}:${BLOG_PORT}`}/>
   </body>
