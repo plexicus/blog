@@ -29,7 +29,7 @@
 		"react-dom": "^19.1.0",
 		"shared-ui": "github:plexicus/ui-lib#v0.0.4-b",
 		"tailwind-animate": "^0.2.10",
-		"tailwind-merge": "^3.2.0",
+		"tailwind-merge": "^3.3.0",
 		"tailwindcss": "^4.1.4",
 		"tailwindcss-animate": "^1.0.7"
 	},
