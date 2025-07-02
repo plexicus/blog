@@ -1,13 +1,13 @@
 
 import ShareButtons from './share-buttons';
 import TableOfContents from './table-of-contents';
-export default function StickySidebar() {
+export default function StickySidebar({ url, article }) {
   return (
     <section className="sticky top-16 py-2">
       <div className="space-y-6">
         { /* Share Buttons */ }
         
-        <ShareButtons title="article" url="eko" />
+        <ShareButtons title={article} url={url} />
 
         { /* Table of Contents */ }
         <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
