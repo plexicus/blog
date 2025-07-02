@@ -139,20 +139,20 @@ const routeLang = getRoutePrefixForLang(lang);
 							    </div>
 							  )
 							}
-						</div>
+            </div>
 				  </header>
 				  <div class="prose prose-lg prose-gray mx-auto">
 				    <slot />
 				  </div>
-				</article>
-				<Sidebar client:load />
+        </article>
+        <Sidebar client:load url={Astro.url} article={title} />
 		  </div>
-		</main>
-		<ReadingProgress />
+    </main>
+    <ReadingProgress />
 		
 
 		
 
-		<FooterPlexicus client:only />
-	</body>
+    <FooterPlexicus client:only={true} />
+  </body>
 </html>
