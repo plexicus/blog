@@ -1,8 +1,8 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
 import { getLangFromUrl, useTranslations, getLangFromPathname } from "@/i18n/utils";
-import { SITE_TITLE, SITE_DESCRIPTION, } from "@/consts";
-import { SITE_URL, SITE_PORT,BLOG_SITE_URL ,BLOG_PORT} from "astro:env/client";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import { SITE_URL, SITE_PORT,BLOG_SITE_URL ,BLOG_PORT } from "astro:env/client";
 import "@/styles/global.css";
 import { getCollection } from "astro:content";
 import { NavbarPlexicus, FooterPlexicus } from "shared-ui";
@@ -31,10 +31,10 @@ const t = useTranslations(lang);
       fullBlogUrl={`${BLOG_SITE_URL}:${BLOG_PORT}`}
 
     />
-    <HeroMain/>
+    <HeroMain client:load/>
     <FeaturedArticles featuredPosts={posts.slice(0,3)} />
-    <LatestArticles client:load blogPosts={posts}/>
+    <LatestArticles client:load blogPosts={posts} />
     <FooterPlexicus client:only={true}  fullSiteUrl={`${SITE_URL}:${SITE_PORT}`}
-    fullBlogUrl={`${BLOG_SITE_URL}:${BLOG_PORT}`}/>
+      fullBlogUrl={`${BLOG_SITE_URL}:${BLOG_PORT}`}/>
   </body>
 </html>
