@@ -28,7 +28,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       <span className="text-sm text-gray-600 font-medium">Share</span>
       <button
         onClick={shareOnTwitter}
-        className="text-gray-400 hover:text-blue-500 transition-colors"
+        className="text-gray-400 hover:text-blue-500 transition-colors cursor-pointer"
         aria-label="Share on Twitter"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -37,7 +37,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       </button>
       <button
         onClick={shareOnLinkedIn}
-        className="text-gray-400 hover:text-blue-700 transition-colors"
+        className="text-gray-400 hover:text-blue-700 transition-colors cursor-pointer"
         aria-label="Share on LinkedIn"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -48,14 +48,14 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           ></path>
         </svg>
       </button>
-      <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-md hover:bg-gray-50">
+      { /* <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-md hover:bg-gray-50">
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 3.433-2.173 4.71-1.277 1.277-2.852 2.004-4.71 2.173-.38.035-.747.035-1.127 0-1.858-.169-3.433-.896-4.710-2.173-1.277-1.277-2.004-2.852-2.173-4.71-.035-.38-.035-.747 0-1.127.169-1.858.896-3.433 2.173-4.71 1.277-1.277 2.852-2.004 4.71-2.173.38-.035.747-.035 1.127 0 1.858.169 3.433.896 4.71 2.173 1.277 1.277 2.004 2.852 2.173 4.71.035.38.035.747 0 1.127z" />
         </svg>
-      </button>
+      </button> */ }
       <button
         onClick={copyToClipboard}
-        className="text-gray-400 hover:text-gray-600 transition-colors"
+        className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
         aria-label="Copy link"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
