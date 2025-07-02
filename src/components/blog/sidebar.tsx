@@ -5,7 +5,7 @@ import type React from 'react';
 import { useState } from 'react';
 import StickySidebar from './sticky-sidebar';
 
-export default function Sidebar() {
+export default function Sidebar({ url, article }) {
   const [email, setEmail] = useState('');
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -63,13 +63,15 @@ export default function Sidebar() {
             <span>Free plan up to 50k MAU</span>
           </div>
         </div>
-        <button className="w-full bg-white text-purple-600 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
-          Sign up today
-        </button>
+        <a className="cursor-pointer" href="https://covulor.plexicus.com/register">
+          <button className="w-full bg-white text-purple-600 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
+            Sign up today
+          </button>
+        </a>
       </div>
 
       { /* Sticky Share and TOC Section */ }
-      <StickySidebar />
+      <StickySidebar url={url} article={article} />
     </aside>
   );
 }
